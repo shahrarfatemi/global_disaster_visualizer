@@ -1,0 +1,18 @@
+initially: year = "All", group = "All", sub_group = "All", sub_type = "All", country="All"
+sunburst e kono block e click korle :
+1) trend barchart e oi sub group wise change hobe. We are talking about that trend.
+2) world map e oi sub group/type er onujayi count dekhabe.
+3) time series data oi sub group er hoye jabe
+
+slider e year change korle :
+1) trend barchart e oi year wise change hobe. We are talking about that year's trend.
+2) world map e oi year onujayi count/group dekhabe.
+3) time series data oi year er hoye jabe
+4) radviz oi year er data er upore updated hobe
+
+map e county click korle :
+1) trend barchart e oi country wise change hobe. We are talking about that country's trend.
+2) time series data oi country er hoye jabe
+
+
+note : top 5 er change will be added

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+ body, html {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100%; /* Set the height to fill the viewport */
+  }
+  <!-- .dashboard {
+    height: calc(100% - 50px);
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1.5fr 1fr 1.5fr;/* Two columns of equal size repeat(2, 1fr); */ 
+    grid-template-rows: repeat(2, 1fr); /* auto, auto; auto, auto; 50vh repeat(2, 1fr)*/
+    gap: 10px;
+    padding: 5px;
+    box-sizing: border-box;
+    background: #000;
+  } -->
+
+  .dashboard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr); /* Creates a total of 6 fraction units across */
+    grid-template-rows: repeat(2, 1fr); /* Two rows  */
+    gap: 10px;
+    padding: 5px;
+    background: #000;
+    box-sizing: border-box;
+  }
+
+  /* Assigning each grid item to span different numbers of columns */
+  .dashboard > :nth-child(1) { grid-column: span 3;} /* Spans two columns */
+  .dashboard > :nth-child(2) { grid-column: span 2;} /* Spans one column */
+  .dashboard > :nth-child(3) { grid-column: span 3;} /* Spans three columns */
+  .dashboard > :nth-child(4) { grid-column: span 3;} /* Second row, spans three columns */
+  .dashboard > :nth-child(5) { grid-column: span 3;} /* Second row, spans two columns */
+  .dashboard > :nth-child(6) { grid-column: span 2;} /* Second row, spans one column */
+
+
+  svg .domain, svg text {
+    fill: white;       /* For text elements */
+    stroke: white;     /* For line elements */
+  }
+
+  .map, .time-map, .chart, .bubble, .bar-chart, .radviz {
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 50vh; /* new */
+    background: #000;
+  }
+  svg {
+    display: block; /* Remove bottom space/margin */
+    width: 100%;
+    max-height: 100%; /* Prevent svg from overflowing its container */
+  }
+  .svg-content-responsive {
+  display: block; /* If you want to center the SVG in its container, use margin: auto */
+  width: 100%;
+  height: 100%;
+}
+
+  <!-- .map, .time-map { 
+    height: 50vh;
+   } /* Set heights to half the viewport height */
+  .chart, .bubble { 
+   height: 50vh;
+   }  -->
+
+   .d3_tip {
+    font-size: 12px;  /* Set the font size of the tooltip text */
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+    pointer-events: none;  /* Prevents tooltip from interfering with mouse events */
+}
+<!-- .tooltip {
+  position: absolute;
+  text-align: center;
+  width: auto;
+  height: auto;
+  padding: 8px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+} -->
+.slider-container {
+    text-align: right; /* Keep right alignment for the slider */
+    padding: 10px;
+    background: #000; /* Black background for the slider container */
+    position: relative;
+    min-height: 25px; /* Needed for absolute positioning inside */
+}
+
+.headline {
+    position: absolute; /* Absolute positioning relative to container */
+    left: 0; /* Align to the left side of the container */
+    top: 5%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust to center correctly */
+    color: white; /* White text color */
+    font-size: 25px; /* Suitable font size */
+    margin-left: 10px; /* Add some left margin */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: visible; /* Allow text to be visible even outside container */
+}
+
+/* Styling the slider itself */
+input[type=range] {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 50%; /* Reduced width */
+    height: 4px; /* Specified height, less than before */
+    background: #000; /* Black background for the slider track */
+    outline: none; /* Remove outline */
+    opacity: 0.9; /* Set opacity for better visibility */
+    transition: opacity .2s; /* Transition for hover effect */
+    border-radius: 5px; /* Slightly rounded corners */
+}
+
+/* Styling the slider thumb */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #c0e408; /* Light yellow background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 50%; /* Circular handle */
+    box-shadow: 0 0 5px #666; /* Subtle shadow for depth */
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #F3FFB6; /* Light yellow background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 50%; /* Circular handle */
+    box-shadow: 0 0 5px #666; /* Subtle shadow for depth */
+}
+
+/* Hover effect */
+input[type=range]:hover {
+    opacity: 1; /* Full opacity when hovered */
+}
+
+/* CSS for the year text color */
+.year-text {
+    color: #FFF; /* White text color */
+}
+.slide-text {
+  fill: #FFF;
+  color: #FFF;
+}
+/* #slider-cont */
+</style>
+</head>
+<body>
+  <div class="slider-container">
+    <h2 class="headline">Global Disaster Insights: A Visual Journey (2010-2021)</h2>
+    <input type="range" id="slider" min="2010" max="All" value="2014">
+      <div class="slide-text" id="sliderValue">Hellloooos</div>
+</div>
+ 
+  
+    <div class="dashboard">
+        <!-- Geo Map -->
+        <div class="map">
+          <svg id="world_map"  ></svg>
+          <!-- width="600" height="400" -->
+        </div>
+        <!-- /* new */ -->
+        <!-- Parallel Coordinates Plot -->
+        <div class="radviz">
+            <div id="radviz"></div>
+        </div>
+        
+        
+        <!-- New Bar Chart -->
+        <div class="bar-chart">
+          <div id="bar_chart"></div>
+        </div>
+        
+        <!-- Bubble Chart -->
+        <div class="bubble">
+          <div id="bubble-chart"></div>
+        </div>
+
+        <!-- Time Series Chart -->
+        <div class="time-map">
+          <!-- <div id="tooltip" class="tooltip" style="opacity: 0; position: absolute;"></div> -->
+
+          <div id="chart2"></div>
+        </div>
+        <!-- /* new */ -->
+        <!-- Stacked Bar Chart -->
+        
+        <div class="chart">
+          <div id="stacked_bar_chart"></div>
+        </div>
+        
+      </div>
+<script type="text/javascript">
+    var data = {{ data | tojson }};
+</script>
+
+	<script src="https://d3js.org/d3.v4.js"></script> 
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <script src="{{ url_for('static', filename='lib/js/d3-legend.min.js') }}"></script>
+</body>
+</html>
